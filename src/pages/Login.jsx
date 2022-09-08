@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { callApi } from '../redux/actions';
 
-export class Login extends Component {
+class Login extends Component {
   state = {
     name: '',
     email: '',
@@ -11,12 +14,9 @@ export class Login extends Component {
     this.setState({ [name]: value });
   };
 
-  // handlePlay = () => {
-  // };
-
   render() {
     const { name, email } = this.state;
-    // const { history } = this.props;
+    const { dispatch, history: { push } } = this.props;
     return (
       <form>
         <label htmlFor="name">
@@ -44,7 +44,10 @@ export class Login extends Component {
         <button
           type="button"
           disabled={ !name.length > 0 || !email.length > 0 }
-          onClick={ this.handlePlay }
+          onClick={ async () => {
+            await dispatch(callApi());
+            push('/game');
+          } }
           data-testid="btn-play"
         >
           Play
@@ -54,4 +57,11 @@ export class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default connect()(Login);
