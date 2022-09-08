@@ -52,6 +52,13 @@ class Login extends Component {
         >
           Play
         </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => push('/settings') }
+        >
+          Settings
+        </button>
       </form>
     );
   }
