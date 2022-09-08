@@ -1,14 +1,17 @@
-// const INITIAL_STATE = {};
+import { GET_TOKEN } from '../actions';
 
-// export default function loginReducer(state = INITIAL_STATE, action) {
-//   switch (action.type) {
-//   case GET_USER_DATA:
-//     return {
-//       ...state,
-//       userData: action.payload,
-//       isLogged: true,
-//     };
-//   default:
-//     return state;
-//   }
-// }
+const INITIAL_STATE = {
+  token: '',
+};
+
+export default function loginReducer(state = INITIAL_STATE, action) {
+  switch (action.type) {
+  case GET_TOKEN:
+    return {
+      ...state,
+      token: action.token,
+    };
+  default:
+    return state;
+  }
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import logo from './trivia.png';
 import './App.css';
+import Game from './pages/Game';
 import Login from './pages/Login';
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
         <p>SUA VEZ</p>
         <Switch>
           <Route exact path="/" component={ Login } />
+          <Route path="/game" component={ Game } />
         </Switch>
       </header>
     </div>
