@@ -2,11 +2,31 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import '../App.css';
+import { timeOut } from '../redux/actions';
 // import { nextQuestion } from '../redux/actions';
 
 class Question extends Component {
   state = {
     isClicked: false,
+    timer: 6,
+    lockQuestions: [],
+  };
+
+  componentDidMount() {
+    this.setState({ lockQuestions: this.renderQuestionOptions() });
+  }
+
+  gameTimer = () => {
+    const { timer } = this.state;
+    const { dispatch } = this.props;
+    const ONE_SECOND = 1000;
+    if (timer > 0) {
+      setTimeout(() => this
+        .setState((prevState) => ({ timer: prevState.timer - 1 })), ONE_SECOND);
+    } if (timer === 0) {
+      dispatch(timeOut(true));
+    }
+    return timer;
   };
 
   handleClick = () => {
@@ -14,14 +34,15 @@ class Question extends Component {
   };
 
   renderQuestionOptions = () => {
-    const { question } = this.props;
+    const { question, timeStop } = this.props;
     const { isClicked } = this.state;
     const correctAsw = (
       <button
         key="5"
         type="button"
         onClick={ this.handleClick }
-        className={ isClicked && 'rightAnswer' }
+        disabled={ timeStop }
+        className={ isClicked ? 'rightAnswer' : '' }
         data-testid="correct-answer"
       >
         {question.correct_answer}
@@ -31,7 +52,8 @@ class Question extends Component {
         key={ index }
         type="button"
         onClick={ this.handleClick }
-        className={ isClicked && 'wrongAnswer' }
+        disabled={ timeStop }
+        className={ isClicked ? 'wrongAnswer' : '' }
         data-testid={ `wrong-answer-${index}` }
       >
         { incorrectAsw }
@@ -46,16 +68,19 @@ class Question extends Component {
 
   render() {
     const { question } = this.props;
+    const { timer, lockQuestions } = this.state;
+    this.gameTimer();
     return (
       question
         ? (
           <section>
             <div>
+              <span>{timer}</span>
               <h3 data-testid="question-category">{ question.category }</h3>
               <h3 data-testid="question-text">{ question.question }</h3>
             </div>
             <div data-testid="answer-options">
-              { this.renderQuestionOptions() }
+              { lockQuestions }
             </div>
           </section>
         )
@@ -66,6 +91,11 @@ class Question extends Component {
 
 Question.propTypes = {
   question: PropTypes.shape({}),
+  dispatch: PropTypes.func,
 }.isRequired;
 
-export default connect()(Question);
+const mapStateToProps = (state) => ({
+  timeStop: state.gameReducer.timer,
+});
+
+export default connect(mapStateToProps)(Question);
