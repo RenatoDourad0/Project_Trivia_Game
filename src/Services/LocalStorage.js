@@ -1,9 +1,9 @@
 const token = 'token';
 
-if (!JSON.parse(localStorage.getItem(token))) {
-  localStorage.setItem(token, JSON.stringify([]));
-}
-const readToken = () => JSON.parse(localStorage.getItem(token));
+// if (!JSON.parse(localStorage.getItem(token))) {
+//   localStorage.setItem(token, JSON.stringify([]));
+// }
+// const readToken = () => JSON.parse(localStorage.getItem(token));
 
 const saveToken = (items) => localStorage
   .setItem(token, items);
