@@ -51,10 +51,14 @@ const mapStateToProps = (state) => ({
 
 Game.propTypes = {
   token: PropTypes.shape({
-    token: PropTypes.string.isRequired,
-  }).isRequired,
-  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
+    token: PropTypes.string,
+  }),
+  history: PropTypes.shape({ push: PropTypes.func }),
+  questions: PropTypes.shape({
+    results: PropTypes.objectOf(PropTypes.shape({})),
+  }),
+  dispatch: PropTypes.func,
+  currentQuestion: PropTypes.number,
+}.isRequired;
 
 export default connect(mapStateToProps)(Game);

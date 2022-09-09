@@ -1,4 +1,4 @@
-import { GET_TOKEN, GET_INFO, GET_QUEST_INFO, NEXT_QUESTION } from '../actions';
+import { GET_TOKEN, GET_INFO } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
