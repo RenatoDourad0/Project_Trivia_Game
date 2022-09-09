@@ -10,21 +10,35 @@ class Question extends Component {
     isClicked: false,
     timer: 6,
     lockQuestions: [],
+    interval: '',
   };
 
   componentDidMount() {
-    this.setState({ lockQuestions: this.renderQuestionOptions() });
+    const { question } = this.props;
+    const half = 0.5;
+    const minusOne = -1;
+    this.setState({ lockQuestions: [question
+      .correct_answer, ...question.incorrect_answers]
+      .sort(() => ((Math.random() > half) ? 1 : minusOne)) });
+    this.gameTimer();
+  }
+
+  componentDidUpdate() {
+    const { timer, interval } = this.state;
+    const { dispatch } = this.props;
+    if (timer === 0) {
+      clearInterval(interval);
+      dispatch(timeOut(true));
+    }
   }
 
   gameTimer = () => {
     const { timer } = this.state;
-    const { dispatch } = this.props;
     const ONE_SECOND = 1000;
     if (timer > 0) {
-      setTimeout(() => this
+      const interval = setInterval(() => this
         .setState((prevState) => ({ timer: prevState.timer - 1 })), ONE_SECOND);
-    } if (timer === 0) {
-      dispatch(timeOut(true));
+      this.setState({ interval });
     }
     return timer;
   };
@@ -33,43 +47,9 @@ class Question extends Component {
     this.setState({ isClicked: true });
   };
 
-  renderQuestionOptions = () => {
-    const { question, timeStop } = this.props;
-    const { isClicked } = this.state;
-    const correctAsw = (
-      <button
-        key="5"
-        type="button"
-        onClick={ this.handleClick }
-        disabled={ timeStop }
-        className={ isClicked ? 'rightAnswer' : '' }
-        data-testid="correct-answer"
-      >
-        {question.correct_answer}
-      </button>);
-    const incorrectAsws = question.incorrect_answers.map((incorrectAsw, index) => (
-      <button
-        key={ index }
-        type="button"
-        onClick={ this.handleClick }
-        disabled={ timeStop }
-        className={ isClicked ? 'wrongAnswer' : '' }
-        data-testid={ `wrong-answer-${index}` }
-      >
-        { incorrectAsw }
-      </button>
-    ));
-    const half = 0.5;
-    const minusOne = -1;
-    const options = [correctAsw, ...incorrectAsws]
-      .sort(() => ((Math.random() > half) ? 1 : minusOne));
-    return options;
-  };
-
   render() {
-    const { question } = this.props;
-    const { timer, lockQuestions } = this.state;
-    this.gameTimer();
+    const { question, timeStop } = this.props;
+    const { timer, lockQuestions, isClicked } = this.state;
     return (
       question
         ? (
@@ -80,7 +60,30 @@ class Question extends Component {
               <h3 data-testid="question-text">{ question.question }</h3>
             </div>
             <div data-testid="answer-options">
-              { lockQuestions }
+              { lockQuestions.map((item, index) => (
+                <div key={ index }>
+                  {/* {console.log(item)} */}
+                  {console.log(lockQuestions)}
+                  <button
+                    type="button"
+                    onClick={ this.handleClick }
+                    disabled={ timeStop }
+                    className={ isClicked ? 'rightAnswer' : '' }
+                    data-testid="correct-answer"
+                  >
+                    {item.correct_answer}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={ this.handleClick }
+                    disabled={ timeStop }
+                    className={ isClicked ? 'wrongAnswer' : '' }
+                    data-testid={ `wrong-answer-${index}` }
+                  >
+                    { item.incorrect_answers }
+                  </button>
+                </div>
+              )) }
             </div>
           </section>
         )
