@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { nextQuestion } from '../redux/actions';
+import '../App.css';
+// import { nextQuestion } from '../redux/actions';
 
 class Question extends Component {
-  handleRightClick = () => {
-    const { dispatch } = this.props;
-    dispatch(nextQuestion());
+  state = {
+    isClicked: false,
   };
 
-  handleWrongClick = () => {
-    const { dispatch } = this.props;
-    dispatch(nextQuestion());
+  handleClick = () => {
+    this.setState({ isClicked: true });
   };
 
   renderQuestionOptions = () => {
     const { question } = this.props;
+    const { isClicked } = this.state;
     const correctAsw = (
       <button
         key="5"
         type="button"
-        onClick={ this.handleRightClick }
+        onClick={ this.handleClick }
+        className={ isClicked && 'rightAnswer' }
         data-testid="correct-answer"
       >
         {question.correct_answer}
@@ -29,7 +30,8 @@ class Question extends Component {
       <button
         key={ index }
         type="button"
-        onClick={ this.handleWrongClick }
+        onClick={ this.handleClick }
+        className={ isClicked && 'wrongAnswer' }
         data-testid={ `wrong-answer-${index}` }
       >
         { incorrectAsw }
@@ -63,9 +65,7 @@ class Question extends Component {
 }
 
 Question.propTypes = {
-  question: PropTypes.shape({
-
-  }),
+  question: PropTypes.shape({}),
 }.isRequired;
 
 export default connect()(Question);
