@@ -4,15 +4,16 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { getQuestions } from '../redux/actions/index';
 import Question from '../components/Question';
+import { getToken, removeToken } from '../Services/LocalStorage';
 
 class Game extends React.Component {
   componentDidMount() {
     const { token, history: { push }, dispatch } = this.props;
-    const localStorageToken = localStorage.getItem('token');
+    const localStorageToken = getToken();
     if (localStorageToken === 'INVALID_TOKEN') {
       push('/');
       dispatch(getQuestions(token.token));
-      return localStorage.removeItem('token');
+      return removeToken();
     }
     dispatch(getQuestions(token.token));
   }
@@ -44,8 +45,8 @@ class Game extends React.Component {
 
 const mapStateToProps = (state) => ({
   token: state.loginReducer.token,
-  questions: state.loginReducer.questions,
-  currentQuestion: state.loginReducer.currentQuestion,
+  questions: state.gameReducer.questions,
+  currentQuestion: state.gameReducer.currentQuestion,
 });
 
 Game.propTypes = {
@@ -53,11 +54,7 @@ Game.propTypes = {
     token: PropTypes.string.isRequired,
   }).isRequired,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
-  questions: PropTypes.shape({
-    results: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
-  }).isRequired,
   dispatch: PropTypes.func.isRequired,
-  currentQuestion: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(Game);

@@ -3,7 +3,7 @@ const token = 'token';
 // if (!JSON.parse(localStorage.getItem(token))) {
 //   localStorage.setItem(token, JSON.stringify([]));
 // }
-// const readToken = () => JSON.parse(localStorage.getItem(token));
+const readToken = () => localStorage.getItem(token);
 
 const saveToken = (items) => localStorage
   .setItem(token, items);
@@ -20,7 +20,7 @@ export const addToken = (item) => {
   }
 };
 
-export const removeToken = (item) => {
+export const removeToken = () => {
   const items = readToken();
-  saveToken(items.filter((s) => s.title !== item.title)); // verificar chave api
+  localStorage.removeItem(items); // verificar chave api
 };
