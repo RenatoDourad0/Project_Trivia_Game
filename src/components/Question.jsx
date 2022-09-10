@@ -29,7 +29,6 @@ class Question extends Component {
     if (timer === 0) {
       clearInterval(interval);
       dispatch(timeOut(true));
-      dispatch(nextQuestion());
     }
   }
 
@@ -91,8 +90,8 @@ class Question extends Component {
                   </button>
                 )) }
             </div>
-            { isClicked
-              && (
+            { isClicked || timeStop
+              ? (
                 <button
                   type="button"
                   onClick={ this.handleNextClick }
@@ -100,7 +99,8 @@ class Question extends Component {
                 >
                   Próxima pergunta
                 </button>
-              )}
+              )
+              : '' }
           </section>
         )
         : <div />
