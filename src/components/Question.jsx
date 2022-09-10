@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import '../App.css';
 import { timeOut } from '../redux/actions';
-// import { nextQuestion } from '../redux/actions';
+// nextQuestion
 
 class Question extends Component {
   state = {
     isClicked: false,
-    timer: 6,
-    lockQuestions: [],
+    timer: 30,
+    lockAnswers: [],
     interval: '',
   };
 
@@ -17,8 +17,8 @@ class Question extends Component {
     const { question } = this.props;
     const half = 0.5;
     const minusOne = -1;
-    this.setState({ lockQuestions: [question
-      .correct_answer, ...question.incorrect_answers]
+    this.setState({ lockAnswers: [{ correct_answer: question
+      .correct_answer }, ...question.incorrect_answers]
       .sort(() => ((Math.random() > half) ? 1 : minusOne)) });
     this.gameTimer();
   }
@@ -44,12 +44,14 @@ class Question extends Component {
   };
 
   handleClick = () => {
+    // const { dispatch } = this.props;
+    // dispatch(nextQuestion());
     this.setState({ isClicked: true });
   };
 
   render() {
     const { question, timeStop } = this.props;
-    const { timer, lockQuestions, isClicked } = this.state;
+    const { timer, lockAnswers, isClicked } = this.state;
     return (
       question
         ? (
@@ -60,30 +62,21 @@ class Question extends Component {
               <h3 data-testid="question-text">{ question.question }</h3>
             </div>
             <div data-testid="answer-options">
-              { lockQuestions.map((item, index) => (
-                <div key={ index }>
-                  {/* {console.log(item)} */}
-                  {console.log(lockQuestions)}
+              { lockAnswers
+                .map((item, index) => (
                   <button
                     type="button"
+                    key={ index }
                     onClick={ this.handleClick }
                     disabled={ timeStop }
-                    className={ isClicked ? 'rightAnswer' : '' }
-                    data-testid="correct-answer"
+                    className={ isClicked && item.correct_answer
+                      ? 'rightAnswer' : isClicked && 'wrongAnswer' }
+                    data-testid={ item.correct_answer
+                      ? 'correct-answer' : `wrong-answer-${index}` }
                   >
-                    {item.correct_answer}
+                    { item.correct_answer ? item.correct_answer : item }
                   </button>
-                  <button
-                    type="button"
-                    onClick={ this.handleClick }
-                    disabled={ timeStop }
-                    className={ isClicked ? 'wrongAnswer' : '' }
-                    data-testid={ `wrong-answer-${index}` }
-                  >
-                    { item.incorrect_answers }
-                  </button>
-                </div>
-              )) }
+                )) }
             </div>
           </section>
         )
