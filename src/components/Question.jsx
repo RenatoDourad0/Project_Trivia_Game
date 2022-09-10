@@ -49,7 +49,7 @@ class Question extends Component {
     return timer;
   };
 
-  handleClick = ({ target }) => {
+  handleClick = ({ target }) => { // req 9
     this.setState({ isClicked: true });
     const { timer } = this.state;
     const { question, dispatch } = this.props;
