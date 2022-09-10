@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import '../App.css';
-import { timeOut, nextQuestion } from '../redux/actions';
+import { decode } from 'html-entities';
+import { timeOut, nextQuestion, pointsTotal } from '../redux/actions';
 
 class Question extends Component {
   state = {
@@ -48,8 +49,19 @@ class Question extends Component {
     return timer;
   };
 
-  handleClick = () => {
+  handleClick = ({ target }) => {
     this.setState({ isClicked: true });
+    const { timer } = this.state;
+    const { question, dispatch } = this.props;
+    const POINTS_CONST = 10;
+    const POINTS_HIGH = 3;
+    let difficultPoints = 1;
+    console.log(target.class);
+    if (question.difficulty === 'medium') difficultPoints = 2;
+    if (question.difficulty === 'hard') difficultPoints = POINTS_HIGH;
+    if (target.name === question
+      .correct_answer) dispatch(pointsTotal(POINTS_CONST + (timer * difficultPoints)));
+    dispatch(timeOut(true));
   };
 
   handleNextClick = () => {
@@ -71,12 +83,13 @@ class Question extends Component {
             <div>
               <span>{timer}</span>
               <h3 data-testid="question-category">{ question.category }</h3>
-              <h3 data-testid="question-text">{ question.question }</h3>
+              <h3 data-testid="question-text">{ decode(question.question) }</h3>
             </div>
             <div data-testid="answer-options">
               { lockAnswers
                 .map((item, index) => (
                   <button
+                    name={ item.correct_answer ? item.correct_answer : item }
                     type="button"
                     key={ index }
                     onClick={ this.handleClick }
@@ -86,7 +99,8 @@ class Question extends Component {
                     data-testid={ item.correct_answer
                       ? 'correct-answer' : `wrong-answer-${index}` }
                   >
-                    { item.correct_answer ? item.correct_answer : item }
+                    { decode(item.correct_answer) ? decode(item
+                      .correct_answer) : decode(item) }
                   </button>
                 )) }
             </div>

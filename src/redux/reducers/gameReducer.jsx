@@ -1,9 +1,10 @@
-import { GET_QUEST_INFO, NEXT_QUESTION, TIME_OUT } from '../actions';
+import { GET_QUEST_INFO, NEXT_QUESTION, TIME_OUT, POINTS } from '../actions';
 
 const INITIAL_STATE = {
   token: {},
   currentQuestion: 1,
   timer: false,
+  points: 0,
 };
 
 const five = 5;
@@ -26,6 +27,11 @@ export default function gameReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       timer: action.time,
+    };
+  case POINTS:
+    return {
+      ...state,
+      points: state.points + action.points,
     };
 
   default:
