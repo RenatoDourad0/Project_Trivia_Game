@@ -10,6 +10,7 @@ export const GET_QUEST_INFO = 'GET_QUEST_INFO';
 export const NEXT_QUESTION = 'NEXT_QUESTION';
 
 export const TIME_OUT = 'TIME_OUT';
+export const POINTS = 'POINTS';
 
 export const getToken = (token) => ({ type: GET_TOKEN, token });
 export const requestApi = () => ({ type: REQUEST_API });
@@ -38,3 +39,4 @@ export const nextQuestion = () => ({
 });
 
 export const timeOut = (time) => ({ type: TIME_OUT, time });
+export const pointsTotal = (points) => ({ type: POINTS, points });
