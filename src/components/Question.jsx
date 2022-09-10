@@ -2,25 +2,25 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import '../App.css';
-import { timeOut } from '../redux/actions';
-// import { nextQuestion } from '../redux/actions';
+import { timeOut, nextQuestion } from '../redux/actions';
 
 class Question extends Component {
   state = {
     isClicked: false,
-    timer: 6,
-    lockQuestions: [],
+    timer: 30,
+    lockAnswers: [],
     interval: '',
   };
 
   componentDidMount() {
-    const { question } = this.props;
+    const { question, dispatch } = this.props;
     const half = 0.5;
     const minusOne = -1;
-    this.setState({ lockQuestions: [question
-      .correct_answer, ...question.incorrect_answers]
+    this.setState({ lockAnswers: [{ correct_answer: question
+      .correct_answer }, ...question.incorrect_answers]
       .sort(() => ((Math.random() > half) ? 1 : minusOne)) });
     this.gameTimer();
+    dispatch(timeOut(false));
   }
 
   componentDidUpdate() {
@@ -30,6 +30,11 @@ class Question extends Component {
       clearInterval(interval);
       dispatch(timeOut(true));
     }
+  }
+
+  componentWillUnmount() {
+    const { interval } = this.state;
+    clearInterval(interval);
   }
 
   gameTimer = () => {
@@ -47,9 +52,18 @@ class Question extends Component {
     this.setState({ isClicked: true });
   };
 
+  handleNextClick = () => {
+    const { dispatch, currentQuestion, history: { push } } = this.props;
+    dispatch(nextQuestion());
+    const five = 5;
+    if (currentQuestion === five) {
+      push('/feedback');
+    }
+  };
+
   render() {
     const { question, timeStop } = this.props;
-    const { timer, lockQuestions, isClicked } = this.state;
+    const { timer, lockAnswers, isClicked } = this.state;
     return (
       question
         ? (
@@ -60,31 +74,33 @@ class Question extends Component {
               <h3 data-testid="question-text">{ question.question }</h3>
             </div>
             <div data-testid="answer-options">
-              { lockQuestions.map((item, index) => (
-                <div key={ index }>
-                  {/* {console.log(item)} */}
-                  {console.log(lockQuestions)}
+              { lockAnswers
+                .map((item, index) => (
                   <button
                     type="button"
+                    key={ index }
                     onClick={ this.handleClick }
                     disabled={ timeStop }
-                    className={ isClicked ? 'rightAnswer' : '' }
-                    data-testid="correct-answer"
+                    className={ isClicked && item.correct_answer
+                      ? 'rightAnswer' : isClicked && 'wrongAnswer' }
+                    data-testid={ item.correct_answer
+                      ? 'correct-answer' : `wrong-answer-${index}` }
                   >
-                    {item.correct_answer}
+                    { item.correct_answer ? item.correct_answer : item }
                   </button>
-                  <button
-                    type="button"
-                    onClick={ this.handleClick }
-                    disabled={ timeStop }
-                    className={ isClicked ? 'wrongAnswer' : '' }
-                    data-testid={ `wrong-answer-${index}` }
-                  >
-                    { item.incorrect_answers }
-                  </button>
-                </div>
-              )) }
+                )) }
             </div>
+            { isClicked || timeStop
+              ? (
+                <button
+                  type="button"
+                  onClick={ this.handleNextClick }
+                  data-testid="btn-next"
+                >
+                  Próxima pergunta
+                </button>
+              )
+              : '' }
           </section>
         )
         : <div />
@@ -99,6 +115,7 @@ Question.propTypes = {
 
 const mapStateToProps = (state) => ({
   timeStop: state.gameReducer.timer,
+  currentQuestion: state.gameReducer.currentQuestion,
 });
 
 export default connect(mapStateToProps)(Question);

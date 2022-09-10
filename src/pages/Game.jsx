@@ -19,7 +19,7 @@ class Game extends React.Component {
   }
 
   render() {
-    const { questions, currentQuestion } = this.props;
+    const { questions, currentQuestion, history } = this.props;
     const [one, two] = [1, 2];
     const three = 3;
     const four = 4;
@@ -28,15 +28,15 @@ class Game extends React.Component {
       <div>
         <Header />
         { questions && currentQuestion === one
-          && <Question question={ questions.results[0] } /> }
+          && <Question question={ questions.results[0] } history={ history } /> }
         { questions && currentQuestion === two
-          && <Question question={ questions.results[1] } /> }
+          && <Question question={ questions.results[1] } history={ history } /> }
         { questions && currentQuestion === three
-          && <Question question={ questions.results[2] } /> }
+          && <Question question={ questions.results[2] } history={ history } /> }
         { questions && currentQuestion === four
-          && <Question question={ questions.results[3] } /> }
+          && <Question question={ questions.results[3] } history={ history } /> }
         { questions && currentQuestion === five
-          && <Question question={ questions.results[4] } /> }
+          && <Question question={ questions.results[4] } history={ history } /> }
 
       </div>
     );
