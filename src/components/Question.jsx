@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import '../App.css';
-import { timeOut } from '../redux/actions';
-// nextQuestion
+import { timeOut, nextQuestion } from '../redux/actions';
 
 class Question extends Component {
   state = {
@@ -29,6 +28,7 @@ class Question extends Component {
     if (timer === 0) {
       clearInterval(interval);
       dispatch(timeOut(true));
+      dispatch(nextQuestion());
     }
   }
 
@@ -44,9 +44,16 @@ class Question extends Component {
   };
 
   handleClick = () => {
-    // const { dispatch } = this.props;
-    // dispatch(nextQuestion());
     this.setState({ isClicked: true });
+  };
+
+  handleNextClick = () => {
+    const { dispatch, currentQuestion, history: { push } } = this.props;
+    dispatch(nextQuestion());
+    const five = 5;
+    if (currentQuestion === five) {
+      push('/feedback');
+    }
   };
 
   render() {
@@ -78,6 +85,16 @@ class Question extends Component {
                   </button>
                 )) }
             </div>
+            { isClicked
+              && (
+                <button
+                  type="button"
+                  onClick={ this.handleNextClick }
+                  data-testid="btn-next"
+                >
+                  Próxima pergunta
+                </button>
+              )}
           </section>
         )
         : <div />
@@ -92,6 +109,7 @@ Question.propTypes = {
 
 const mapStateToProps = (state) => ({
   timeStop: state.gameReducer.timer,
+  currentQuestion: state.gameReducer.currentQuestion,
 });
 
 export default connect(mapStateToProps)(Question);
