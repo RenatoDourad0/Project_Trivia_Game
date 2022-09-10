@@ -56,7 +56,7 @@ class Question extends Component {
     const POINTS_CONST = 10;
     const POINTS_HIGH = 3;
     let difficultPoints = 1;
-    console.log(target.class);
+    console.log(target);
     if (question.difficulty === 'medium') difficultPoints = 2;
     if (question.difficulty === 'hard') difficultPoints = POINTS_HIGH;
     if (target.name === question
@@ -89,7 +89,7 @@ class Question extends Component {
               { lockAnswers
                 .map((item, index) => (
                   <button
-                    name={ item.correct_answer ? item.correct_answer : item }
+                    name={ item.correct_answer }
                     type="button"
                     key={ index }
                     onClick={ this.handleClick }
