@@ -4,7 +4,7 @@ class Feedback extends Component {
   render() {
     return (
       <div>
-        oi
+        feedback
       </div>
     );
   }
