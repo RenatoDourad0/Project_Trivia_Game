@@ -13,13 +13,14 @@ class Question extends Component {
   };
 
   componentDidMount() {
-    const { question } = this.props;
+    const { question, dispatch } = this.props;
     const half = 0.5;
     const minusOne = -1;
     this.setState({ lockAnswers: [{ correct_answer: question
       .correct_answer }, ...question.incorrect_answers]
       .sort(() => ((Math.random() > half) ? 1 : minusOne)) });
     this.gameTimer();
+    dispatch(timeOut(false));
   }
 
   componentDidUpdate() {
@@ -30,6 +31,11 @@ class Question extends Component {
       dispatch(timeOut(true));
       dispatch(nextQuestion());
     }
+  }
+
+  componentWillUnmount() {
+    const { interval } = this.state;
+    clearInterval(interval);
   }
 
   gameTimer = () => {
