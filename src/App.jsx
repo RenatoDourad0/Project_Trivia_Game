@@ -9,7 +9,7 @@ import Feedback from './pages/Feedback';
 import Ranking from './pages/Ranking';
 
 export default function App() {
-  return ( // req16 e 18 linha 22
+  return (
     <div className="App">
       <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 
-class Feedback extends Component { // req16 e 18
+class Feedback extends Component {
   handleClick = ({ target }) => {
     const { history: { push } } = this.props;
     if (target.name === 'Ranking') {
