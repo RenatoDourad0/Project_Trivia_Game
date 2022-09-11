@@ -56,7 +56,6 @@ class Question extends Component {
     const POINTS_CONST = 10;
     const POINTS_HIGH = 3;
     let difficultPoints = 1;
-    console.log(target);
     if (question.difficulty === 'medium') difficultPoints = 2;
     if (question.difficulty === 'hard') difficultPoints = POINTS_HIGH;
     if (target.name === question
@@ -90,20 +89,32 @@ class Question extends Component {
             <div data-testid="answer-options">
               { lockAnswers
                 .map((item, index) => (
-                  <button
-                    name={ item.correct_answer }
-                    type="button"
-                    key={ index }
-                    onClick={ this.handleClick }
-                    disabled={ timeStop }
-                    className={ isClicked && item.correct_answer
-                      ? 'rightAnswer' : isClicked && 'wrongAnswer' }
-                    data-testid={ item.correct_answer
-                      ? 'correct-answer' : `wrong-answer-${index}` }
-                  >
-                    { decode(item.correct_answer) ? decode(item
-                      .correct_answer) : decode(item) }
-                  </button>
+                  item.correct_answer === question.correct_answer ? (
+                    <button
+                      key={ index }
+                      name={ item.correct_answer }
+                      type="button"
+                      onClick={ this.handleClick }
+                      disabled={ timeStop }
+                      className={ isClicked ? 'rightAnswer' : 'didMount' }
+                      data-testid="correct-answer"
+                    >
+                      { decode(item.correct_answer) ? decode(item
+                        .correct_answer) : decode(item) }
+                    </button>
+                  ) : (
+                    <button
+                      key={ index }
+                      type="button"
+                      onClick={ this.handleClick }
+                      disabled={ timeStop }
+                      className={ isClicked ? 'wrongAnswer' : 'didMount' }
+                      data-testid={ `wrong-answer-${index}` }
+                    >
+                      { decode(item.correct_answer) ? decode(item
+                        .correct_answer) : decode(item) }
+                    </button>
+                  )
                 )) }
             </div>
             { isClicked || timeStop

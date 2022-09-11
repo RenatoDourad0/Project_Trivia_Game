@@ -69,3 +69,7 @@ body {
 .wrongAnswer {
   border: 3px solid red;
 }
+
+.false {
+  background-color: azure;
+}
