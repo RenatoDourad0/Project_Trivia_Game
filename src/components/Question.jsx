@@ -99,8 +99,7 @@ class Question extends Component {
                       className={ isClicked ? 'rightAnswer' : 'didMount' }
                       data-testid="correct-answer"
                     >
-                      { decode(item.correct_answer) ? decode(item
-                        .correct_answer) : decode(item) }
+                      { decode(item.correct_answer) }
                     </button>
                   ) : (
                     <button
@@ -111,8 +110,7 @@ class Question extends Component {
                       className={ isClicked ? 'wrongAnswer' : 'didMount' }
                       data-testid={ `wrong-answer-${index}` }
                     >
-                      { decode(item.correct_answer) ? decode(item
-                        .correct_answer) : decode(item) }
+                      { decode(item) }
                     </button>
                   )
                 )) }
