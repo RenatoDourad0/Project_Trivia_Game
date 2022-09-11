@@ -1,10 +1,8 @@
 import { GET_QUEST_INFO, NEXT_QUESTION, TIME_OUT } from '../actions';
 
 const INITIAL_STATE = {
-  token: {},
   currentQuestion: 1,
   timer: false,
-  score: 0,
 };
 
 const five = 5;

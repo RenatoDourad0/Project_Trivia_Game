@@ -115,8 +115,8 @@ class Question extends Component {
                   )
                 )) }
             </div>
-            { isClicked || timeStop
-              ? (
+            { (isClicked || timeStop)
+              && (
                 <button
                   type="button"
                   onClick={ this.handleNextClick }
@@ -124,8 +124,7 @@ class Question extends Component {
                 >
                   Próxima pergunta
                 </button>
-              )
-              : '' }
+              ) }
           </section>
         )
         : <div />
