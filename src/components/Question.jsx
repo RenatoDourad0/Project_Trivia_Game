@@ -54,7 +54,7 @@ class Question extends Component {
 
   handleClick = (correct) => {
     this.setState({ isClicked: true });
-    const { timer } = this.state;
+    const { timer, interval } = this.state;
     const { question, dispatch } = this.props;
     const POINTS_CONST = 10;
     const POINTS_HIGH = 3;
@@ -64,6 +64,7 @@ class Question extends Component {
     if (question.difficulty === 'hard') difficultPoints = POINTS_HIGH;
     if (correct) dispatch(pointsTotal(POINTS_CONST + (timer * difficultPoints)));
     dispatch(timeOut(true));
+    clearInterval(interval);
   };
 
   generateAnswer = (answer, type, index) => {
@@ -118,6 +119,7 @@ class Question extends Component {
     if (currentQuestion === five) {
       push('/feedback');
     }
+    this.setState({ timer: 0 });
   };
 
   render() {
@@ -135,22 +137,6 @@ class Question extends Component {
             </div>
             <div data-testid="answer-options">
               {this.buttonRender()}
-              {/* { lockAnswers
-                .map((item, index) => (
-                  <button
-                    type="button"
-                    key={ index }
-                    onClick={ this.handleClick }
-                    disabled={ timeStop }
-                    className={ isClicked && item.correct_answer
-                      ? 'rightAnswer' : isClicked && 'wrongAnswer' }
-                    data-testid={ item.correct_answer
-                      ? 'correct-answer' : `wrong-answer-${index}` }
-                  >
-                    { decode(item.correct_answer) ? decode(item
-                      .correct_answer) : decode(item) }
-                  </button>
-                )) } */}
             </div>
             { isClicked || timeStop
               ? (

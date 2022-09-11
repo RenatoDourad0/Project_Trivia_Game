@@ -1,4 +1,4 @@
-import { GET_QUEST_INFO, NEXT_QUESTION, TIME_OUT, POINTS } from '../actions';
+import { GET_QUEST_INFO, NEXT_QUESTION, TIME_OUT } from '../actions';
 
 const INITIAL_STATE = {
   token: {},
