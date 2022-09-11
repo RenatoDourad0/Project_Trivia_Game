@@ -39,29 +39,77 @@ class Question extends Component {
   }
 
   gameTimer = () => {
-    const { timer } = this.state;
+    const { timer, isClicked } = this.state;
     const ONE_SECOND = 1000;
-    if (timer > 0) {
-      const interval = setInterval(() => this
-        .setState((prevState) => ({ timer: prevState.timer - 1 })), ONE_SECOND);
-      this.setState({ interval });
-    }
-    return timer;
+    const setTime = setTimeout(() => {
+      this.setState({ timer: timer - 1 });
+    }, ONE_SECOND);
+    if (timer === 0 || isClicked) clearTimeout(setTime);
+    // if (timer > 0) {
+    //   const setTime = setInterval(() => this
+    //     .setState((prevState) => ({ timer: prevState.timer - 1 })), ONE_SECOND);
+    //   this.setState({ interval: setTime });
+    // }
   };
 
-  handleClick = ({ target }) => { // req 9
+  handleClick = (correct) => {
     this.setState({ isClicked: true });
     const { timer, interval } = this.state;
     const { question, dispatch } = this.props;
     const POINTS_CONST = 10;
     const POINTS_HIGH = 3;
-    let difficultPoints = 1;
+    let difficultPoints = 0;
+    if (question.difficulty === 'easy') difficultPoints = 1;
     if (question.difficulty === 'medium') difficultPoints = 2;
     if (question.difficulty === 'hard') difficultPoints = POINTS_HIGH;
-    if (target.name === question
-      .correct_answer) dispatch(pointsTotal(POINTS_CONST + (timer * difficultPoints)));
+    if (correct) dispatch(pointsTotal(POINTS_CONST + (timer * difficultPoints)));
     dispatch(timeOut(true));
     clearInterval(interval);
+  };
+
+  generateAnswer = (answer, type, index) => {
+    const { isClicked } = this.state;
+    const { timeStop } = this.props;
+    if (type === 'correct') {
+      return (
+        <button
+          type="button"
+          key={ index }
+          onClick={ () => this.handleClick('true') }
+          disabled={ timeStop }
+          className={ isClicked ? 'rightAnswer' : '' }
+          data-testid="correct-answer"
+        >
+          { decode(answer) }
+        </button>
+      );
+    }
+    return (
+      <button
+        type="button"
+        key={ index }
+        onClick={ () => this.handleClick() }
+        disabled={ timeStop }
+        className={ isClicked ? 'wrongAnswer' : '' }
+        data-testid={ `wrong-answer-${index}` }
+      >
+        { decode(answer) }
+      </button>
+    );
+  };
+
+  buttonRender = () => {
+    const { lockAnswers } = this.state;
+    const { question } = this.props;
+    const emptyArray = [];
+    lockAnswers.forEach((item, index) => {
+      if (item.correct_answer === question.correct_answer) {
+        emptyArray.push(this.generateAnswer(item.correct_answer, 'correct', index));
+      } else {
+        emptyArray.push(this.generateAnswer(item, 'wrong', index));
+      }
+    });
+    return emptyArray;
   };
 
   handleNextClick = () => {
@@ -76,7 +124,8 @@ class Question extends Component {
 
   render() {
     const { question, timeStop } = this.props;
-    const { timer, lockAnswers, isClicked } = this.state;
+    const { timer, isClicked } = this.state;
+    if (timer !== 0) this.gameTimer();
     return (
       question
         ? (
@@ -87,33 +136,7 @@ class Question extends Component {
               <h3 data-testid="question-text">{ decode(question.question) }</h3>
             </div>
             <div data-testid="answer-options">
-              { lockAnswers
-                .map((item, index) => (
-                  item.correct_answer === question.correct_answer ? (
-                    <button
-                      key={ index }
-                      name={ item.correct_answer }
-                      type="button"
-                      onClick={ this.handleClick }
-                      disabled={ timeStop }
-                      className={ isClicked ? 'rightAnswer' : 'didMount' }
-                      data-testid="correct-answer"
-                    >
-                      { decode(item.correct_answer) }
-                    </button>
-                  ) : (
-                    <button
-                      key={ index }
-                      type="button"
-                      onClick={ this.handleClick }
-                      disabled={ timeStop }
-                      className={ isClicked ? 'wrongAnswer' : 'didMount' }
-                      data-testid={ `wrong-answer-${index}` }
-                    >
-                      { decode(item) }
-                    </button>
-                  )
-                )) }
+              {this.buttonRender()}
             </div>
             { (isClicked || timeStop)
               && (
@@ -138,8 +161,8 @@ Question.propTypes = {
 }.isRequired;
 
 const mapStateToProps = (state) => ({
-  timeStop: state.gameReducer.timer,
-  currentQuestion: state.gameReducer.currentQuestion,
+  timeStop: state.player.timer,
+  currentQuestion: state.player.currentQuestion,
 });
 
 export default connect(mapStateToProps)(Question);

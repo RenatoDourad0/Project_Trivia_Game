@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 
 const five = 5;
 
-export default function gameReducer(state = INITIAL_STATE, action) {
+export default function player(state = INITIAL_STATE, action) {
   switch (action.type) {
   case GET_QUEST_INFO:
     return {
@@ -25,6 +25,12 @@ export default function gameReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       timer: action.time,
+    };
+
+  case POINTS:
+    return {
+      ...state,
+      score: state.score + action.points,
     };
 
   default:
