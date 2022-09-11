@@ -51,7 +51,7 @@ class Question extends Component {
 
   handleClick = ({ target }) => { // req 9
     this.setState({ isClicked: true });
-    const { timer } = this.state;
+    const { timer, interval } = this.state;
     const { question, dispatch } = this.props;
     const POINTS_CONST = 10;
     const POINTS_HIGH = 3;
@@ -62,6 +62,7 @@ class Question extends Component {
     if (target.name === question
       .correct_answer) dispatch(pointsTotal(POINTS_CONST + (timer * difficultPoints)));
     dispatch(timeOut(true));
+    clearInterval(interval);
   };
 
   handleNextClick = () => {
@@ -71,6 +72,7 @@ class Question extends Component {
     if (currentQuestion === five) {
       push('/feedback');
     }
+    this.setState({ timer: 0 });
   };
 
   render() {
