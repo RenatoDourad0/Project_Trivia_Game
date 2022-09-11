@@ -45,11 +45,6 @@ class Question extends Component {
       this.setState({ timer: timer - 1 });
     }, ONE_SECOND);
     if (timer === 0 || isClicked) clearTimeout(setTime);
-    // if (timer > 0) {
-    //   const setTime = setInterval(() => this
-    //     .setState((prevState) => ({ timer: prevState.timer - 1 })), ONE_SECOND);
-    //   this.setState({ interval: setTime });
-    // }
   };
 
   handleClick = (correct) => {
@@ -161,8 +156,8 @@ Question.propTypes = {
 }.isRequired;
 
 const mapStateToProps = (state) => ({
-  timeStop: state.player.timer,
-  currentQuestion: state.player.currentQuestion,
+  timeStop: state.gameReducer.timer,
+  currentQuestion: state.gameReducer.currentQuestion,
 });
 
 export default connect(mapStateToProps)(Question);
