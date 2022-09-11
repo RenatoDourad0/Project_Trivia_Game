@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 
-class Feedback extends Component {
+class Feedback extends Component { // req15
   handleClick = () => {
     const { history: { push } } = this.props;
     push('/');
