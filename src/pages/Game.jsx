@@ -45,8 +45,8 @@ class Game extends React.Component {
 
 const mapStateToProps = (state) => ({
   token: state.loginReducer.token,
-  questions: state.player.questions,
-  currentQuestion: state.player.currentQuestion,
+  questions: state.gameReducer.questions,
+  currentQuestion: state.gameReducer.currentQuestion,
 });
 
 Game.propTypes = {
