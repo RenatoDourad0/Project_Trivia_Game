@@ -4,12 +4,12 @@ const INITIAL_STATE = {
   token: {},
   currentQuestion: 1,
   timer: false,
-  points: 0,
+  score: 0,
 };
 
 const five = 5;
 
-export default function gameReducer(state = INITIAL_STATE, action) {
+export default function player(state = INITIAL_STATE, action) {
   switch (action.type) {
   case GET_QUEST_INFO:
     return {
@@ -28,10 +28,11 @@ export default function gameReducer(state = INITIAL_STATE, action) {
       ...state,
       timer: action.time,
     };
+
   case POINTS:
     return {
       ...state,
-      points: state.points + action.points,
+      score: state.score + action.points,
     };
 
   default:
