@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 
-class Feedback extends Component { // req15
-  handleClick = () => {
+class Feedback extends Component {
+  handleClick = ({ target }) => {
     const { history: { push } } = this.props;
-    push('/');
-    window.location.reload(false);
+    if (target.name === 'Ranking') {
+      push('/Ranking');
+    } else {
+      push('/');
+      window.location.reload(false);
+    }
   };
 
   render() {
@@ -20,6 +24,14 @@ class Feedback extends Component { // req15
           data-testid="btn-play-again"
         >
           Play Again
+        </button>
+        <button
+          name="Ranking"
+          type="button"
+          onClick={ this.handleClick }
+          data-testid="btn-ranking"
+        >
+          Ranking
         </button>
       </div>
     );
