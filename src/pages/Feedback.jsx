@@ -20,10 +20,18 @@ class Feedback extends Component {
     }
   };
 
+  messageChecker = () => {
+    const { assertions } = this.props;
+    const THREE = 3;
+    if (assertions < THREE) return 'Could be better...';
+    if (assertions >= THREE) return 'Well Done!';
+  };
+
   render() {
     return (
       <div data-testid="feedback-text">
         <Header />
+        <h3 data-testid="feedback-text">{this.messageChecker()}</h3>
         <button
           type="button"
           onClick={ this.handleClick }
@@ -47,6 +55,7 @@ class Feedback extends Component {
 const mapStateToProps = (state) => ({
   name: state.loginReducer.name,
   score: state.player.score,
+  assertions: state.player.assertions,
 });
 
 Feedback.propTypes = {

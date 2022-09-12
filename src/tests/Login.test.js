@@ -1,8 +1,8 @@
 import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from '../../App';
-import renderWithRouterAndRedux from './renderWithRouterAndRedux';
+import App from '../App';
+import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 
 const mockData = {"response_code":0,"response_message":"Token Generated Successfully!","token":"524564f2cb1120b12ce344fd68c52bb54118e74dccb35175f5379127bf923440"}
 afterAll(() => jest.clearAllMocks());
