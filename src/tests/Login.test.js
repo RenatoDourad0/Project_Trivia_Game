@@ -4,8 +4,6 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 
-const mockData = {"response_code":0,"response_message":"Token Generated Successfully!","token":"524564f2cb1120b12ce344fd68c52bb54118e74dccb35175f5379127bf923440"}
-afterAll(() => jest.clearAllMocks());
 
 describe('Testa Tela de Login', () => {
   test('if Login page reders', () => {
