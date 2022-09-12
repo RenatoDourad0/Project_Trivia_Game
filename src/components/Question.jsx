@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import '../App.css';
 import { decode } from 'html-entities';
-import { timeOut, nextQuestion, pointsTotal } from '../redux/actions';
+import {
+  timeOut,
+  nextQuestion,
+  pointsTotal,
+  checkCorrectAnswers,
+} from '../redux/actions';
 
 class Question extends Component {
   state = {
@@ -11,6 +16,7 @@ class Question extends Component {
     timer: 30,
     lockAnswers: [],
     interval: '',
+    correctAnswers: 0,
   };
 
   componentDidMount() {
@@ -49,7 +55,7 @@ class Question extends Component {
 
   handleClick = (correct) => {
     this.setState({ isClicked: true });
-    const { timer, interval } = this.state;
+    const { timer, interval, correctAnswers } = this.state;
     const { question, dispatch } = this.props;
     const POINTS_CONST = 10;
     const POINTS_HIGH = 3;
@@ -58,6 +64,9 @@ class Question extends Component {
     if (question.difficulty === 'medium') difficultPoints = 2;
     if (question.difficulty === 'hard') difficultPoints = POINTS_HIGH;
     if (correct) dispatch(pointsTotal(POINTS_CONST + (timer * difficultPoints)));
+    if (correct) {
+      dispatch(checkCorrectAnswers(correctAnswers + 1));
+    }
     dispatch(timeOut(true));
     clearInterval(interval);
   };
