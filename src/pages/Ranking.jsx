@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Header from '../components/Header';
+import { getRankItems } from '../Services/LocalStorage';
 
 class Ranking extends Component {
   handleClick = () => {
@@ -11,10 +11,16 @@ class Ranking extends Component {
   };
 
   render() {
+    const rankList = getRankItems();
     return (
       <div data-testid="Ranking-text">
-        <Header />
         <h3 data-testid="ranking-title">Ranking</h3>
+        { rankList.map((item, index) => (
+          <div key={ index }>
+            <h3 data-testid={ `player-score-${index}` }>{item.score}</h3>
+            <h3 data-testid={ `player-name-${index}` }>{item.name}</h3>
+          </div>
+        )) }
         <button
           type="button"
           onClick={ this.handleClick }
