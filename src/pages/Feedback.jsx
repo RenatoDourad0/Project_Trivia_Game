@@ -14,10 +14,18 @@ class Feedback extends Component {
     }
   };
 
+  messageChecker = () => {
+    const { assertions } = this.props;
+    const THREE = 3;
+    if (assertions < THREE) return 'Could be better...';
+    if (assertions >= THREE) return 'Well Done!';
+  };
+
   render() {
     return (
       <div data-testid="feedback-text">
         <Header />
+        <h3 data-testid="feedback-text">{this.messageChecker()}</h3>
         <button
           type="button"
           onClick={ this.handleClick }
@@ -42,4 +50,8 @@ Feedback.propTypes = {
   dispatch: PropTypes.func,
 }.isRequired;
 
-export default connect()(Feedback);
+const mapStateToProps = (state) => ({
+  assertions: state.player.assertions,
+});
+
+export default connect(mapStateToProps)(Feedback);
