@@ -28,10 +28,19 @@ class Feedback extends Component {
   };
 
   render() {
+    const { assertions, score } = this.props;
     return (
       <div data-testid="feedback-text">
         <Header />
         <h3 data-testid="feedback-text">{this.messageChecker()}</h3>
+        <p>Número de acertos:</p>
+        <p data-testid="feedback-total-question">
+          { assertions }
+        </p>
+        <p>Pontuação:</p>
+        <p data-testid="feedback-total-score">
+          { score }
+        </p>
         <button
           type="button"
           onClick={ this.handleClick }
