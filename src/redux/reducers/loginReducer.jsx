@@ -3,6 +3,7 @@ import { GET_TOKEN, GET_INFO } from '../actions';
 const INITIAL_STATE = {
   name: '',
   email: '',
+  token: '',
 };
 
 export default function loginReducer(state = INITIAL_STATE, action) {
