@@ -19,7 +19,7 @@ export function callApi() {
   return async (dispatch) => {
     dispatch(requestApi());
     const result = await fetchToken();
-    addToken(dispatch(getToken(result)).token.token);
+    addToken(result.token);
     return dispatch(getToken(result));
   };
 }

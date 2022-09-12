@@ -15,7 +15,6 @@ class Question extends Component {
     isClicked: false,
     timer: 30,
     lockAnswers: [],
-    interval: '',
     correctAnswers: 0,
   };
 
@@ -31,36 +30,34 @@ class Question extends Component {
   }
 
   componentDidUpdate() {
-    const { timer, interval } = this.state;
+    const { timer } = this.state;
     const { dispatch } = this.props;
     if (timer === 0) {
-      clearInterval(interval);
+      clearTimeout(this.setTime);
       dispatch(timeOut(true));
     }
   }
 
   componentWillUnmount() {
-    const { interval } = this.state;
-    clearInterval(interval);
+    clearTimeout(this.setTime);
   }
 
   gameTimer = () => {
     const { timer, isClicked } = this.state;
     const ONE_SECOND = 1000;
-    const setTime = setTimeout(() => {
+    this.setTime = setTimeout(() => {
       this.setState({ timer: timer - 1 });
     }, ONE_SECOND);
-    if (timer === 0 || isClicked) clearTimeout(setTime);
+    if (timer === 0 || isClicked) clearTimeout(this.setTime);
   };
 
   handleClick = (correct) => {
     this.setState({ isClicked: true });
-    const { timer, interval, correctAnswers } = this.state;
+    const { timer, correctAnswers } = this.state;
     const { question, dispatch } = this.props;
     const POINTS_CONST = 10;
     const POINTS_HIGH = 3;
-    let difficultPoints = 0;
-    if (question.difficulty === 'easy') difficultPoints = 1;
+    let difficultPoints = 1;
     if (question.difficulty === 'medium') difficultPoints = 2;
     if (question.difficulty === 'hard') difficultPoints = POINTS_HIGH;
     if (correct) dispatch(pointsTotal(POINTS_CONST + (timer * difficultPoints)));
@@ -68,7 +65,7 @@ class Question extends Component {
       dispatch(checkCorrectAnswers(correctAnswers + 1));
     }
     dispatch(timeOut(true));
-    clearInterval(interval);
+    clearTimeout(this.setTime);
   };
 
   generateAnswer = (answer, type, index) => {
