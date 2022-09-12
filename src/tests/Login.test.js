@@ -54,10 +54,6 @@ describe('Testa Tela de Login', () => {
   });
 
   test('if correct email and name calls function', async () => {
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(mockData),
-    });
 
     const API = 'https://opentdb.com/api_token.php?command=request';
     const { history } = renderWithRouterAndRedux(<App />);
@@ -70,11 +66,9 @@ describe('Testa Tela de Login', () => {
     userEvent.type(name, 'Zeze de Camargo');
     userEvent.click(playBtn);
     await waitFor(() => {
-    expect(global.fetch).toHaveBeenCalled();
-    expect(global.fetch).toHaveBeenCalledWith(API);
-  });
     const { pathname } = history.location;
     expect(pathname).toBe('/game');
+  });
   });
 
   test('if settings button click renders settings page', async () => {
