@@ -8,6 +8,8 @@ import {
   nextQuestion,
   pointsTotal,
   checkCorrectAnswers,
+  decreaseTimer,
+  restoreTimer,
 } from '../redux/actions';
 
 class Question extends Component {
@@ -30,25 +32,25 @@ class Question extends Component {
   }
 
   componentDidUpdate() {
-    const { timer } = this.state;
-    const { dispatch } = this.props;
-    if (timer === 0) {
-      clearTimeout(this.setTime);
+    const { dispatch, decrease } = this.props;
+    if (decrease === 0) {
+      clearInterval(this.setTime);
       dispatch(timeOut(true));
     }
   }
 
   componentWillUnmount() {
-    clearTimeout(this.setTime);
+    clearInterval(this.setTime);
   }
 
   gameTimer = () => {
-    const { timer, isClicked } = this.state;
+    const { isClicked } = this.state;
+    const { dispatch, decrease } = this.props;
     const ONE_SECOND = 1000;
-    this.setTime = setTimeout(() => {
-      this.setState({ timer: timer - 1 });
+    this.setTime = setInterval(() => {
+      dispatch(decreaseTimer());
     }, ONE_SECOND);
-    if (timer === 0 || isClicked) clearTimeout(this.setTime);
+    if (decrease === 0 || isClicked) clearInterval(this.setTime);
   };
 
   handleClick = (correct) => {
@@ -64,8 +66,8 @@ class Question extends Component {
     if (correct) {
       dispatch(checkCorrectAnswers(correctAnswers + 1));
     }
-    dispatch(timeOut(true));
-    clearTimeout(this.setTime);
+    // dispatch(timeOut(true));
+    clearInterval(this.setTime);
   };
 
   generateAnswer = (answer, type, index) => {
@@ -120,19 +122,21 @@ class Question extends Component {
     if (currentQuestion === five) {
       push('/feedback');
     }
-    this.setState({ timer: 0 });
+    dispatch(restoreTimer());
+    this.setState({ isClicked: false });
+    clearInterval(this.setTime);
   };
 
   render() {
-    const { question, timeStop } = this.props;
-    const { timer, isClicked } = this.state;
-    if (timer !== 0) this.gameTimer();
+    const { question, timeStop, dispatch, decrease } = this.props;
+    const { isClicked } = this.state;
+    if (isClicked) dispatch(timeOut(true));
     return (
       question
         ? (
           <section>
             <div>
-              <span>{timer}</span>
+              <span>{decrease}</span>
               <h3 data-testid="question-category">{ question.category }</h3>
               <h3 data-testid="question-text">{ decode(question.question) }</h3>
             </div>
@@ -164,6 +168,7 @@ Question.propTypes = {
 const mapStateToProps = (state) => ({
   timeStop: state.gameReducer.timer,
   currentQuestion: state.gameReducer.currentQuestion,
+  decrease: state.gameReducer.decrease,
 });
 
 export default connect(mapStateToProps)(Question);

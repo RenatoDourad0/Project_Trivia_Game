@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getRankItems } from '../Services/LocalStorage';
+import { resetState } from '../redux/actions';
 
 class Ranking extends Component {
   handleClick = () => {
-    const { history: { push } } = this.props;
-    push('/');
-    window.location.reload(false);
+    const { dispatch } = this.props;
+    // window.location.reload(false); Hackerzinho do Jensen
+    dispatch(resetState());
   };
 
   render() {
@@ -21,13 +23,15 @@ class Ranking extends Component {
             <h3 data-testid={ `player-name-${index}` }>{item.name}</h3>
           </div>
         )) }
-        <button
-          type="button"
-          onClick={ this.handleClick }
-          data-testid="btn-go-home"
-        >
-          Play Again
-        </button>
+        <Link to="/">
+          <button
+            type="button"
+            onClick={ this.handleClick }
+            data-testid="btn-go-home"
+          >
+            Play Again
+          </button>
+        </Link>
       </div>
     );
   }

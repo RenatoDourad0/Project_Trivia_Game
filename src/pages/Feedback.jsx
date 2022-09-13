@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { addRankItem } from '../Services/LocalStorage';
+import { resetState } from '../redux/actions';
 
 class Feedback extends Component {
   handleClick = ({ target }) => {
-    const { name, score, history: { push } } = this.props;
+    const { dispatch, name, score, history: { push } } = this.props;
     const storage = {
       name,
       score,
@@ -16,7 +17,8 @@ class Feedback extends Component {
       push('/Ranking');
     } else {
       push('/');
-      window.location.reload(false);
+      // window.location.reload(false);
+      dispatch(resetState());
     }
   };
 

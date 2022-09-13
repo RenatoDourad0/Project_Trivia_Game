@@ -1,9 +1,7 @@
-import { POINTS, CHECK_CORRECT_ANSWERS } from '../actions';
+import { POINTS, CHECK_CORRECT_ANSWERS, RESET_STATE } from '../actions';
 
 const INITIAL_STATE = {
-  // name: nome-da-pessoa,
   assertions: 0,
-  // gravatarEmail: email-da-pessoa,
   score: 0,
 };
 
@@ -19,6 +17,11 @@ export default function player(state = INITIAL_STATE, action) {
     return {
       ...state,
       assertions: state.assertions + action.times,
+    };
+  case RESET_STATE:
+    return {
+      assertions: 0,
+      score: 0,
     };
 
   default:

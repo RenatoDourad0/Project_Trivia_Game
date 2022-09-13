@@ -11,9 +11,7 @@ export const getToken = () => {
 };
 
 export const addToken = (item) => {
-  if (item) {
-    saveToken(item);
-  }
+  saveToken(item);
 };
 
 export const removeToken = () => {

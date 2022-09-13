@@ -9,11 +9,17 @@ export const NEXT_QUESTION = 'NEXT_QUESTION';
 export const TIME_OUT = 'TIME_OUT';
 export const POINTS = 'POINTS';
 export const CHECK_CORRECT_ANSWERS = 'CHECK_CORRECT_ANSWERS';
+export const DECREASE_TIMER = 'DECREASE_TIMER';
+export const RESTORE_TIMER = 'RESTORE_TIMER';
+export const RESET_STATE = 'RESET_STATE';
 
 export const getToken = (token) => ({ type: GET_TOKEN, token });
 export const requestApi = () => ({ type: REQUEST_API });
 export const getInfo = (info) => ({ type: GET_INFO, info });
 export const getQuestionsInfo = (info) => ({ type: GET_QUEST_INFO, info });
+export const decreaseTimer = (decrease) => ({ type: DECREASE_TIMER, decrease });
+export const restoreTimer = () => ({ type: RESTORE_TIMER });
+export const resetState = () => ({ type: RESET_STATE });
 
 export function callApi() {
   return async (dispatch) => {
