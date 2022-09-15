@@ -4,7 +4,7 @@ import { DECREASE_TIMER, RESET_STATE,
 const INITIAL_STATE = {
   currentQuestion: 1,
   timer: false,
-  decrease: 6,
+  decrease: 30,
 };
 
 const five = 5;
