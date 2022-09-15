@@ -15,7 +15,7 @@ export default function App() {
         <img src={ logo } className="App-logo" alt="logo" />
         <p>SUA VEZ</p>
         <Switch>
-          <Route exact path="/" component={ Login } />
+          <Route exact path="/Project_Trivia_Game" component={ Login } />
           <Route path="/game" component={ Game } />
           <Route path="/settings" component={ Settings } />
           <Route path="/feedback" component={ Feedback } />

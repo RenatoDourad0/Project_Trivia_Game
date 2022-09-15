@@ -5,11 +5,13 @@
   "engines": {
     "node": "16"
   },
+  "homepage" : "https://RenatoDourad0.github.io/Project_Trivia_Game",
   "dependencies": {
     "@redux-devtools/extension": "3.2.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^12.6.3",
     "crypto-js": "^4.1.1",
+    "gh-pages": "^4.0.0",
     "html-entities": "^2.3.3",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
@@ -30,7 +32,9 @@
     "eject": "react-scripts eject",
     "test:coverage": "react-scripts test --coverage --watchAll=false",
     "lint:styles": "npx stylelint '**/*.css'",
-    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js,.jsx"
+    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js,.jsx",
+    "predeploy" : "npm run build",
+    "deploy" : "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
