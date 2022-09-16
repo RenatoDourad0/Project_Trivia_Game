@@ -16,8 +16,7 @@ class Feedback extends Component {
     if (target.name === 'Ranking') {
       push('/Ranking');
     } else {
-      push('/');
-      // window.location.reload(false);
+      push('/Project_Trivia_Game');
       dispatch(resetState());
     }
   };
@@ -32,21 +31,24 @@ class Feedback extends Component {
   render() {
     const { assertions, score } = this.props;
     return (
-      <div data-testid="feedback-text">
+      <div data-testid="feedback-text" className="game-container">
         <Header />
         <h3 data-testid="feedback-text">{this.messageChecker()}</h3>
-        <p>Número de acertos:</p>
-        <p data-testid="feedback-total-question">
+        <span>Número de acertos: </span>
+        <span data-testid="feedback-total-question">
           { assertions }
-        </p>
-        <p>Pontuação:</p>
-        <p data-testid="feedback-total-score">
+        </span>
+        <br />
+        <span>Pontuação: </span>
+        <span data-testid="feedback-total-score">
           { score }
-        </p>
+        </span>
+        <br />
         <button
           type="button"
           onClick={ this.handleClick }
           data-testid="btn-play-again"
+          className="button"
         >
           Play Again
         </button>
@@ -55,6 +57,7 @@ class Feedback extends Component {
           type="button"
           onClick={ this.handleClick }
           data-testid="btn-ranking"
+          className="button"
         >
           Ranking
         </button>

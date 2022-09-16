@@ -66,7 +66,6 @@ class Question extends Component {
     if (correct) {
       dispatch(checkCorrectAnswers(correctAnswers + 1));
     }
-    // dispatch(timeOut(true));
     clearInterval(this.setTime);
   };
 
@@ -80,7 +79,7 @@ class Question extends Component {
           key={ index }
           onClick={ () => this.handleClick('true') }
           disabled={ timeStop }
-          className={ isClicked ? 'rightAnswer' : '' }
+          className={ isClicked ? 'rightAnswer' : 'question-button' }
           data-testid="correct-answer"
         >
           { decode(answer) }
@@ -93,7 +92,7 @@ class Question extends Component {
         key={ index }
         onClick={ () => this.handleClick() }
         disabled={ timeStop }
-        className={ isClicked ? 'wrongAnswer' : '' }
+        className={ isClicked ? 'wrongAnswer' : 'question-button' }
         data-testid={ `wrong-answer-${index}` }
       >
         { decode(answer) }
@@ -149,6 +148,7 @@ class Question extends Component {
                   type="button"
                   onClick={ this.handleNextClick }
                   data-testid="btn-next"
+                  className="next-button"
                 >
                   Próxima pergunta
                 </button>

@@ -26,13 +26,15 @@ class Login extends Component {
     const { name, email } = this.state;
     const { history: { push } } = this.props;
     return (
-      <form>
+      <form className="login-form">
         <label htmlFor="name">
           Nome:
+          <br />
           <input
             type="text"
             name="name"
             id="name"
+            className="login-input"
             value={ name }
             onChange={ this.handleChange }
             data-testid="input-player-name"
@@ -40,10 +42,12 @@ class Login extends Component {
         </label>
         <label htmlFor="email">
           Email:
+          <br />
           <input
             type="email"
             name="email"
             id="email"
+            className="login-input"
             value={ email }
             onChange={ this.handleChange }
             data-testid="input-gravatar-email"
@@ -53,6 +57,7 @@ class Login extends Component {
           type="button"
           disabled={ !name.length > 0 || !email.length > 0 }
           onClick={ this.handlePlay }
+          className="login-button play-button"
           data-testid="btn-play"
         >
           Play
@@ -61,6 +66,7 @@ class Login extends Component {
           type="button"
           data-testid="btn-settings"
           onClick={ () => push('/settings') }
+          className="login-button"
         >
           Settings
         </button>

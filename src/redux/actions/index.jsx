@@ -32,6 +32,7 @@ export function callApi() {
 
 export function getQuestions(token) {
   return async (dispatch) => {
+    dispatch(requestApi());
     const questions = await fetchQuestions(token);
     dispatch(getQuestionsInfo(questions));
   };

@@ -5,13 +5,15 @@ import Header from '../components/Header';
 import { getQuestions } from '../redux/actions/index';
 import Question from '../components/Question';
 import { getToken, removeToken } from '../Services/LocalStorage';
+import Loading from '../components/Loading';
 
 class Game extends React.Component {
   componentDidMount() {
     const { token, history: { push }, dispatch } = this.props;
     const localStorageToken = getToken();
-    if (localStorageToken === 'INVALID_TOKEN') {
-      push('/');
+    if (localStorageToken !== token.token) {
+      console.log(localStorageToken, token);
+      push('/Project_Trivia_Game');
       dispatch(getQuestions(token.token));
       return removeToken();
     }
@@ -19,14 +21,15 @@ class Game extends React.Component {
   }
 
   render() {
-    const { questions, currentQuestion, history } = this.props;
+    const { loading, questions, currentQuestion, history } = this.props;
     const [one, two] = [1, 2];
     const three = 3;
     const four = 4;
     const five = 5;
     return (
-      <div>
+      <div className="game-container">
         <Header />
+        { loading && <Loading /> }
         { questions && currentQuestion === one
           && <Question question={ questions.results[0] } history={ history } /> }
         { questions && currentQuestion === two
@@ -47,6 +50,7 @@ const mapStateToProps = (state) => ({
   token: state.loginReducer.token,
   questions: state.gameReducer.questions,
   currentQuestion: state.gameReducer.currentQuestion,
+  loading: state.gameReducer.loading,
 });
 
 Game.propTypes = {

@@ -1,20 +1,27 @@
 import { DECREASE_TIMER, RESET_STATE,
-  GET_QUEST_INFO, NEXT_QUESTION, RESTORE_TIMER, TIME_OUT } from '../actions';
+  GET_QUEST_INFO, NEXT_QUESTION, RESTORE_TIMER, TIME_OUT, REQUEST_API } from '../actions';
 
 const INITIAL_STATE = {
   currentQuestion: 1,
   timer: false,
   decrease: 30,
+  loading: false,
 };
 
 const five = 5;
 
 export default function gameReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
+  case REQUEST_API:
+    return {
+      ...state,
+      loading: true,
+    };
   case GET_QUEST_INFO:
     return {
       ...state,
       questions: action.info,
+      loading: false,
     };
 
   case NEXT_QUESTION:
@@ -42,7 +49,8 @@ export default function gameReducer(state = INITIAL_STATE, action) {
     return {
       currentQuestion: 1,
       timer: false,
-      decrease: 6,
+      decrease: 30,
+      loading: false,
     };
   default:
     return state;
