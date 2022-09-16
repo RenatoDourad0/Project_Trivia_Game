@@ -2,6 +2,7 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-size: 18px;
 }
 
 .App {
@@ -24,13 +25,19 @@ body {
 @media ( prefers-reduced-motion : no-preference ) {
 
   .App-logo {
+    position: absolute;
     animation: shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    top: 150px;
   }
 }
 
 .App-header {
+  position: relative;
   align-items: center;
-  background-color: #282c34;
+  background-image: url('../public/background.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   color: white;
   display: flex;
   flex-direction: column;
@@ -64,12 +71,90 @@ body {
 
 .rightAnswer {
   border: 3px solid rgb(6, 240, 15);
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 10px;
 }
 
 .wrongAnswer {
   border: 3px solid red;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 10px;
+}
+
+.question-button {
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 10px;
 }
 
 .false {
   background-color: azure;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 30px 50px;
+  box-shadow: 0 0 0 2px azure;
+  border-radius: 10%;
+}
+
+.login-input {
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.login-button {
+  border-radius: 5px;
+  border: none;
+  padding: 5px 0;
+  cursor: pointer;
+}
+
+.play-button:enabled {
+  background-color: rgb(6, 240, 15);
+  cursor: pointer;
+}
+
+.play-button:disabled {
+  color: white;
+}
+
+.header-avatar {
+  border-radius: 50%;
+}
+
+.game-container {
+  position: absolute;
+  top: 35%;
+}
+
+.next-button {
+  border-radius: 5px;
+  border: none;
+  padding: 5px 5px;
+  background-color: rgb(6, 240, 15);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button {
+  border-radius: 5px;
+  border: none;
+  padding: 10px 10px;
+  margin: 40px 10px;
+  cursor: pointer;
+}
+
+.ranking-container {
+  position: absolute;
+  top: 35%;
+  max-height: 50%;
+  width: 50%;
+  overflow-y: scroll;
 }

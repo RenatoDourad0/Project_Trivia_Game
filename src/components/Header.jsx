@@ -13,6 +13,7 @@ class Header extends Component {
           src={ `https://www.gravatar.com/avatar/${gravatar}` }
           alt="gravatar"
           data-testid="header-profile-picture"
+          className="header-avatar"
         />
         <h4
           data-testid="header-player-name"
