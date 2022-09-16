@@ -13,21 +13,21 @@
 
 ### The project
 
-In this project I developed a wallet aplication using React. It's users are capable of register expenses in different currencies and catalog them by tag or 
-payment method. The aplication requests exchange rates data from a currencies API and convert the user expenses to brazilian Real. Users are also able to visualise their expenses on graphs. Some of it's main features are:
+This project is based on a classic trivia game and was developed in group using React. Some of it's main features are:
 
-- Login form with validations
-- Add expense form
-- Expense edition
-- Expenses table and graph interface
+- Login / identification page
+- Game page with timer and interactivity
+- Feedback page with game scores
+- Ranking page with classifications saved to localStore
 
 The main habilities practiced here were:
 
 - Make requests and consume data from an API
 - Apply redux global state to react components
-- Apply redux thunk for async actions 
+- Apply redux thunk for async actions
+- Conditionally render components
+- Develop a timer
 - Save data to localStorage
-- generate graphics with graph.js
 
 ### Screenshot
 
@@ -35,12 +35,12 @@ The main habilities practiced here were:
 
 ### Links
 
-- Solution URL: [Github](https://github.com/RenatoDourad0/Trybe_Wallet_Project)
-- [Live site](https://renatodourad0.github.io/Trybe_Wallet_Project/)
+- Solution URL: [Github](https://github.com/RenatoDourad0/Project_Trivia_Game)
+- [Live site](https://renatodourad0.github.io/Project_Trivia_Game/)
 
 ## My process
 
-This project was a opportunity to consolidade my knowledge on React, especially with Redux.
+This project was a great opportunity to consolidade my knowledge on Redux and tests with RTL
 
 ### Built with
 
@@ -49,13 +49,11 @@ This project was a opportunity to consolidade my knowledge on React, especially 
 - React Router
 - Redux
 - RTL
-- Bulma
-- Chart.js
 
-## Author
-  
+## Authors
+
   Renato Campos
 - [GitHub](https://github.com/RenatoDourad0)
 - [Linkedin](www.linkedin.com/in/renato-dourado-b1b301112)
 
-Contributors besides Renato were responsible for evaluation files that have been removed after approval.
+Contributors besides the group were responsible for evaluation files that have been removed after approval.
